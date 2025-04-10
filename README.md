@@ -1,1 +1,3 @@
 # IvoTakeHome
+
+npm start

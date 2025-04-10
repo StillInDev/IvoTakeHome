@@ -1,64 +1,79 @@
 .app-container {
-    font-family: Arial, sans-serif;
-    padding: 40px;
-    max-width: 800px;
-    margin: auto;
-  }
-  
-  h1 {
-    font-size: 2em;
-    margin-bottom: 0.5em;
-  }
-  
-  h4 {
-    margin-top: 1.2em;
-    margin-bottom: 0.5em;
-  }
-  
-  p, li {
-    line-height: 1.6;
-  }
-  
-  .mention {
-    padding: 2px 6px;
-    border-radius: 4px;
-    color: white;
-  }
-  
-  ul {
-    padding-left: 1.2em;
-  }
-  
-  .bold {
-    font-weight: bold;
-  }
-  
-  .underline {
-    text-decoration: underline;
-  }
-  
-  .clause {
-    margin-bottom: 1em;
-    display: flex;
-  }
-  
-  .clause-number {
-    font-weight: bold;
-    margin-right: 0.5em;
-    min-width: 20px;
-  }
-  
-  .clause-body {
-    flex: 1;
-  }
-  
-  .definition-clause {
-    margin-left: 1.5em;
-    margin-bottom: 0.5em;
-  }
-  
-  .def-label {
-    font-weight: bold;
-    margin-right: 0.5em;
-  }
-  
+  font-family: Arial, sans-serif;
+  padding: 40px;
+  max-width: 800px;
+  margin: auto;
+  line-height: 1.8; /* Added for better vertical rhythm */
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 0.75em; /* slightly more breathing room */
+}
+
+h4 {
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+p, li {
+  line-height: 1.8; /* increase line spacing */
+  margin-bottom: 0.75em; /* spacing between blocks */
+}
+
+.mention {
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: white;
+}
+
+ul {
+  padding-left: 1.2em;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.clause {
+  margin-bottom: 1.5em; /* increased spacing between clauses */
+  display: flex;
+}
+
+.clause-number {
+  font-weight: bold;
+  margin-right: 0.5em;
+  min-width: 20px;
+}
+
+.clause-body {
+  flex: 1;
+}
+
+.clause-body > h4 {
+  display: inline;
+  margin: 0;
+}
+
+
+.definition-clause {
+  margin-left: 1.5em; /* Indentation for definition clauses */
+  margin-bottom: 0.75em; /* Spacing between clauses */
+  display: flex;
+  align-items: baseline;
+}
+
+.def-label {
+  font-weight: bold;
+  margin-right: 0.5em;
+}
+
+.definition-title {
+  font-weight: bold; /* Make the title bold */
+  display: inline;
+}
+
