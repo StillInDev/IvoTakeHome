@@ -61,8 +61,8 @@ ul {
 
 
 .definition-clause {
-  margin-left: 1.5em; /* Indentation for definition clauses */
-  margin-bottom: 0.75em; /* Spacing between clauses */
+  margin-left: 0; 
+  margin-bottom: 0.75em; 
   display: flex;
   align-items: baseline;
 }
@@ -73,7 +73,7 @@ ul {
 }
 
 .definition-title {
-  font-weight: bold; /* Make the title bold */
+  font-weight: bold; 
   display: inline;
 }
 
