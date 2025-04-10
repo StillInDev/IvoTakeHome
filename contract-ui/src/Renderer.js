@@ -46,14 +46,24 @@ const Renderer = ({ data }) => {
           isDefinition={isSubDefinition}
         >
           {renderChildren(node.children, marks)}
-
-          
         </Clause>
       );
     }
-
     
-    
+    if (node.type === "p") {
+      // Check for nested paragraphs in the children
+      let processedChildren = [...(node.children || [])];
+      
+      // Handle nested paragraphs - extract their text content
+      for (let i = 0; i < processedChildren.length; i++) {
+        if (processedChildren[i].type === "p" && processedChildren[i].text) {
+          // Replace the nested paragraph with a text node
+          processedChildren[i] = { text: processedChildren[i].text };
+        }
+      }
+      
+      return <p key={key}>{renderChildren(processedChildren, marks)}</p>;
+    }
 
     if (node.type === "block" && node.title === "Parties") {
       const partyParagraph = node.children?.find((c) => c.type === "p");
@@ -71,7 +81,7 @@ const Renderer = ({ data }) => {
         } else if (
           collectingMentions &&
           typeof child.text === "string" &&
-          /“.*?”/.test(child.text)
+          /"[^"]*"/.test(child.text)
         ) {
           labels.push(child);
         } else {
@@ -126,14 +136,74 @@ const Renderer = ({ data }) => {
     if (node.type === "lic") return <span key={key}>{renderChildren(node.children, marks)}</span>;
 
     if (node.type === "p" || node.type === "block") {
+      const isAgreementSection = node.title?.toLowerCase() === "agreement to provide services";
+    
+      // Check if there are block-level children
       const hasBlockChild = (node.children || []).some((child) =>
         ["h1", "h4", "ul", "ol", "clause"].includes(child.type)
       );
     
-      return hasBlockChild
-        ? <div key={key}>{renderChildren(node.children, marks)}</div>
-        : <p key={key}>{renderChildren(node.children, marks)}</p>;
+      if (isAgreementSection) {
+        return hasBlockChild ? (
+          <div key={key}>
+            {node.children?.map((child, i) => {
+              let className = "";
+              if (child.bold) className += " bold";
+              if (child.underline) className += " underline";
+    
+              // If the child is a mention, render it with the color
+              if (child.type === "mention") {
+                return (
+                  <span key={i} style={{ backgroundColor: child.color }} className={className}>
+                    {renderChildren(child.children, marks)}
+                  </span>
+                );
+              }
+    
+              // Render normal text
+              return (
+                <span key={i} className={className}>
+                  {child.text}
+                </span>
+              );
+            })}
+          </div>
+        ) : (
+          <p key={key}>
+            {node.children?.map((child, i) => {
+              let className = "";
+              if (child.bold) className += " bold";
+              if (child.underline) className += " underline";
+    
+              // If the child is a mention, render it with the color
+              if (child.type === "mention") {
+                return (
+                  <span key={i} style={{ backgroundColor: child.color }} className={className}>
+                    {renderChildren(child.children, marks)}
+                  </span>
+                );
+              }
+    
+              // Render normal text
+              return (
+                <span key={i} className={className}>
+                  {child.text}
+                </span>
+              );
+            })}
+          </p>
+        );
+      }
+    
+      // Handle the other nodes outside of the Agreement Section as normal
+      return hasBlockChild ? (
+        <div key={key}>{renderChildren(node.children, marks)}</div>
+      ) : (
+        <p key={key}>{renderChildren(node.children, marks)}</p>
+      );
     }
+
+    
     
 
     if (node.text) {
