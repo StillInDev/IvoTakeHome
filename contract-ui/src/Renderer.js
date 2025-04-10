@@ -5,8 +5,13 @@ import Mention from "./Mention";
 let clauseCounter = 1;
 
 const Renderer = ({ data }) => {
-  const renderChildren = (children, parentMarks = {}) =>
-    children.map((child, i) => renderNode(child, i, parentMarks));
+  console.log("Renderer received data:", data);
+  console.log("Top-level children:", data?.[0]?.children);
+
+  const renderChildren = (children, parentMarks = {}) => {
+    if (!children || !Array.isArray(children)) return null;
+    return children.map((child, i) => renderNode(child, i, parentMarks));
+  };
 
   const renderNode = (node, key, parentMarks = {}) => {
     const marks = { ...parentMarks };
@@ -22,7 +27,11 @@ const Renderer = ({ data }) => {
     }
 
     if (node.type === "clause") {
-      return <Clause key={key} index={clauseCounter++}>{renderChildren(node.children, marks)}</Clause>;
+      return (
+        <Clause key={key} index={clauseCounter++}>
+          {renderChildren(node.children, marks)}
+        </Clause>
+      );
     }
 
     if (node.type === "h1") return <h1 key={key}>{renderChildren(node.children, marks)}</h1>;
@@ -36,13 +45,17 @@ const Renderer = ({ data }) => {
       let className = "";
       if (marks.bold) className += " bold";
       if (marks.underline) className += " underline";
-      return <span key={key} className={className}>{node.text}</span>;
+      return (
+        <span key={key} className={className}>
+          {node.text}
+        </span>
+      );
     }
 
     return null;
   };
 
-  return <div>{renderChildren(data[0].children)}</div>;
+  return <div>{renderChildren(data?.[0]?.children || [])}</div>;
 };
 
 export default Renderer;
