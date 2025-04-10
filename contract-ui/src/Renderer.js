@@ -47,18 +47,7 @@ const Renderer = ({ data }) => {
         >
           {renderChildren(node.children, marks)}
 
-          {isSubDefinition && (
-            <div className="definition-text">
-              {/* Render definition text after title */}
-              {node.children
-                .filter((child) => child.type === "p")
-                .map((p, i) => (
-                  <p key={i}>
-                    {renderChildren(p.children, marks)}
-                  </p>
-                ))}
-            </div>
-          )}
+          
         </Clause>
       );
     }
